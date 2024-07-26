@@ -33,7 +33,6 @@ const Page = () => {
   const [isSubmitting,setIsSubmitting] = useState(false);
   const [isFetchingMessageSuggestions,setIsFetchingMessageSuggestions] = useState(false);
   const [suggestedMessages,setSuggestedMessages] = useState([]);
-  const [textAreaMessage,setTextAreaMessage] = useState('');
 
 
   const form = useForm({
@@ -73,6 +72,9 @@ const Page = () => {
   }
 
   const fetchMessageSuggestions = async()=>{
+    if(isFetchingMessageSuggestions){
+      return;
+    }
     setIsFetchingMessageSuggestions(true);
     try {
       const response = await axios.get('/api/suggest-messages');
@@ -107,78 +109,83 @@ const Page = () => {
     })
   }
 
+  useEffect(()=>{
+    fetchMessageSuggestions();
+  },[])
+
   return (
-    <div className='my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded  bg-gray-100 min-h-screen w-full max-w-6xl'>
-      <h1 className='text-3xl font-bold text-center mb-6'>Public Profile Link</h1>
+    <div className='w-full h-full min-h-[90vh] flex flex-col items-center'>
+      <div className='w-[90%] text-white'>
+        <h1 className='text-3xl font-bold my-6 '>Public Profile Link</h1>
 
-      <div className=''>
-        <Form {...form} >
-          <form onSubmit={form.handleSubmit(sendMessage)}>
-            <FormField 
-              name='content'
-              control={form.control}
-              render={({field})=>(
-                <FormItem className='mt-3'>
-                  <FormLabel id='content'>Send Anonymous messages to @{username}</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="Type your message here." 
-                      id="content" 
-                      className='border border-black rounded-lg'
-                      {...field}
-                    />
-                  </FormControl>
-                  {
-                    form.formState.errors && (
-                      <p className='text-red-500 mt-2'>{form.formState.errors?.content?.message}</p>
-                    )
-                  }
-                </FormItem>
-              )}
-            />
-            <Button type='submit' disabled={isSubmitting} className='mt-4 mx-auto'>
-            {
-                isSubmitting?(
-                    <>
-                    <Loader2 className='animate-spin h-4 w-4 mr-2'/> 
-                    Please Wait
-                    </>
-                ): ('Send It')
-            }   
-            </Button>
-          </form>
-        </Form>
+        <div className=''>
+          <Form {...form} >
+            <form onSubmit={form.handleSubmit(sendMessage)}>
+              <FormField 
+                name='content'
+                control={form.control}
+                render={({field})=>(
+                  <FormItem className='mt-3'>
+                    <FormLabel id='content'>Send Anonymous messages to @{username}</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Type your message here." 
+                        id="content" 
+                        className='border border-black rounded-lg placeholder-white'
+                        {...field}
+                      />
+                    </FormControl>
+                    {
+                      form.formState.errors && (
+                        <p className='text-red-500 mt-2'>{form.formState.errors?.content?.message}</p>
+                      )
+                    }
+                  </FormItem>
+                )}
+              />
+              <Button type='submit' disabled={isSubmitting} className='mt-4 mx-auto bg-teal-600'>
+              {
+                  isSubmitting?(
+                      <>
+                      <Loader2 className='animate-spin h-4 w-4 mr-2'/> 
+                      Please Wait
+                      </>
+                  ): ('Send It')
+              }   
+              </Button>
+            </form>
+          </Form>
+        </div>
+        <Separator className='my-4 w-full'/>
+        {/* <Button className='mb-2' onClick={fetchMessageSuggestions}>Suggest Messages</Button> */}
+        <div className='mb-4 flex justify-between md:justify-start gap-4 items-center'>
+          <h4 className='text-xl font-bold'>Click on any message below to select it</h4>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Dices className={`cursor-pointer h-6 w-6 ${isFetchingMessageSuggestions?'pointer-events-none':'pointer-events-auto'}`} onClick={throttledFetchMessageSuggestions}/>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Get New Messages</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+        </div>
+        <div className='flex flex-col gap-4 pb-6'>
+        {
+          suggestedMessages.length>0 && (
+            suggestedMessages.map((message,index)=>{
+              return(
+                <div onClick={()=>copyToTextArea(message)} key={index} className='px-2 py-3 border-2 rounded-lg border-violet-500 text-white cursor-pointer'>
+                  {message}
+                </div>
+              )
+            })
+          )
+        }
+        </div>
       </div>
-      <Separator className='my-4 w-full'/>
-      {/* <Button className='mb-2' onClick={fetchMessageSuggestions}>Suggest Messages</Button> */}
-      <div className='mb-4 flex justify-between md:justify-start gap-4 items-center'>
-        <h4 className='text-xl font-bold'>Click on any message below to select it</h4>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Dices className='cursor-pointer h-6 w-6' onClick={throttledFetchMessageSuggestions}/>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Get New Messages</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        
-      </div>
-      <div className='flex flex-col gap-4'>
-      {
-        suggestedMessages.length>0 && (
-          suggestedMessages.map((message,index)=>{
-            return(
-              <div onClick={()=>copyToTextArea(message)} key={index} className='px-2 py-3 border rounded-lg bg-gray-200 cursor-pointer'>
-                {message}
-              </div>
-            )
-          })
-        )
-      }
-      </div>
-
     </div>
   )
 }

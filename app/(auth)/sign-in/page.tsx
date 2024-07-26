@@ -73,10 +73,10 @@ const Page = () => {
   }
 
   return (
-    <div className='bg-gray-100 flex justify-center items-center min-h-screen w-full'>
+    <div className='bg-gradient-to-r from-[#8234d5] to-[#4e0a97] flex justify-center items-center min-h-[90vh] w-full'>
         <div className='bg-white rounded-lg w-[90%] md:w-1/3 p-6 shadow-lg'>
             <div className='flex flex-col gap-1 mb-4'>
-                <h2 className='text-3xl font-bold'>Sign In</h2>
+                <h2 className='text-3xl font-bold text-[#4e0a97]'>Sign In</h2>
                 <p className='text-sm text-slate-500'>Welcome to Anonysend, share anonymous messages with your friends.</p>
             </div>
             <Form {...form}>
@@ -86,7 +86,7 @@ const Page = () => {
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel className='text-[#4e0a97]'>Email</FormLabel>
                             <FormControl>
                                 <Input 
                                     placeholder="Enter Email" 
@@ -102,7 +102,7 @@ const Page = () => {
                     control={form.control}
                     render={({ field }) => (
                         <FormItem className='mt-3'>
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel className='text-[#4e0a97]'>Password</FormLabel>
                             <FormControl>
                                 <Input 
                                     type='password'
@@ -114,7 +114,7 @@ const Page = () => {
                         </FormItem>
                     )}
                     />
-                    <Button type='submit' disabled={isSubmitting} className='mt-4'>
+                    <Button type='submit' disabled={isSubmitting} className='mt-4 bg-[#4e0a97] w-full'>
                     {
                         isSubmitting?(
                             <>
@@ -127,9 +127,9 @@ const Page = () => {
                 </form>
             </Form>
             <div className='mt-4'>
-                <p className='text-center'>
+                <p className='text-center text-[#4e0a97]'>
                     Not a member?{' '}
-                    <Link href='/sign-up' className='text-sky-500'>Sign Up here.</Link>
+                    <Link href='/sign-up' className='text-teal-600 font-bold'>Sign Up here.</Link>
                 </p>
             </div>
         </div>

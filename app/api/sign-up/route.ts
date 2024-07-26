@@ -33,7 +33,7 @@ export async function POST(request:Request){
             if(existingUserByEmail.isVerified){
                 return Response.json({
                     success:false,
-                    message:"A user with this username already exists."
+                    message:"A user with this email already exists."
                 },{status:400});
             }
             // If user exists with that username but unverified -  so we will update the user with new data

@@ -133,18 +133,18 @@ const Page = () => {
 
   if(!session || !session.user){
     return(
-      <div className='text-center mt-6 font-semibold text-2xl'>
+      <div className='text-center text-white font-semibold text-2xl min-h-[90vh] bg-gradient-to-r from-[#8234d5] to-[#4e0a97]'>
         Please Login to access this page.
       </div>
     )
   }
 
   return (
-    <div className='my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded  bg-gray-100 min-h-screen w-full max-w-6xl'>
-      <h1 className='text-3xl font-bold mb-4'>User Dashboard</h1>
+    <div className='mx-auto rounded min-h-screen w-full '>
+      <h1 className='text-3xl font-bold mb-4 mt-4 text-white'>User Dashboard</h1>
 
       <div className='mb-4'>
-        <h2 className='text-lg font-semibold mb-2'>Copy Your Unique Link</h2>{' '}
+        <h2 className='text-lg font-semibold mb-2 font-sofia text-white'>Copy Your Unique Link</h2>{' '}
         <div className='flex items-center'>
           <input 
             type="text" 
@@ -152,11 +152,11 @@ const Page = () => {
             disabled
             className='input input-bordered w-full p-2 mr-2'
           />
-          <Button onClick={copyToClipboard}>Copy</Button>
+          <Button onClick={copyToClipboard} className='bg-teal-600'>Copy</Button>
         </div>
       </div>
 
-      <div className='mb-4'>
+      <div className='mb-4 text-white flex items-center'>
         <Switch
           {...register('acceptMessages')}
           checked={acceptMessages}
@@ -169,23 +169,26 @@ const Page = () => {
       </div>
       <Separator/>
 
-      <Button 
-        className='mt-4'
-        variant='outline'
-        onClick={(e)=>{
-          e.preventDefault();
-          fetchMessages(true);
-        }}
-      >
-        {isLoading? (
-          <Loader2 className='h-4 w-4 animate-spin'/>
-        ):(
-          <RefreshCcw className='h-4 w-4'/>
-        )
-        }
-      </Button>
+      <div className='mt-4 flex items-center gap-4'>
+        <h3 className='text-2xl font-bold font-sofia text-white'>Your Messages</h3>
+        <Button 
+          className=''
+          variant='outline'
+          onClick={(e)=>{
+            e.preventDefault();
+            fetchMessages(true);
+          }}
+        >
+          {isLoading? (
+            <Loader2 className='h-4 w-4 animate-spin'/>
+          ):(
+            <RefreshCcw className='h-4 w-4'/>
+          )
+          }
+        </Button>
+      </div>
 
-      <div className='mt-4 grid grid-cols-1 md:grid-cols-2 gap-6'>
+      <div className='mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 pb-6'>
         {
           messages.length>0 ? (
             messages.map((message,index)=>{

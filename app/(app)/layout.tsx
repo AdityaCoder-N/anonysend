@@ -7,9 +7,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
-        
+    <div className="w-full flex flex-col items-center">
+        <div className="w-[90%] h-full">
         {children}
+        </div>
     </div>
   );
 }

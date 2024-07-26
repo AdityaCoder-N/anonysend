@@ -53,10 +53,10 @@ const Page = () => {
     }
   }
   return (
-    <div className='bg-gray-100 flex justify-center items-center min-h-screen w-full'>
+    <div className='bg-gradient-to-r from-[#8234d5] to-[#4e0a97] flex justify-center items-center min-h-[90vh] w-full'>
         <div className='bg-white rounded-lg w-[90%] md:w-1/3 p-6 shadow-lg'>
             <div className='flex flex-col gap-1 mb-4'>
-                <h2 className='text-3xl font-bold'>Verify Account</h2>
+                <h2 className='text-[#4e0a97] text-3xl font-bold'>Verify Account</h2>
                 <p className='text-sm text-slate-500'>Verify your account by submitting the OTP sent to your email.</p>
             </div>
             <Form {...form}>
@@ -74,7 +74,7 @@ const Page = () => {
                         </FormItem>
                     )}
                     />
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" className='bg-[#4e0a97]'>Submit</Button>
                 </form>
             </Form>
         </div>

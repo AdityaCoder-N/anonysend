@@ -24,8 +24,8 @@ export default function RootLayout({
         <div className="h-full w-full flex flex-col items-center bg-gradient-to-r from-[#8234d5] to-[#4e0a97] overflow-hidden relative">
           <Navbar/>
           {children}
-          <Toaster />
         </div>
+          <Toaster />
       </body>
       </AuthProvider>
     </html>

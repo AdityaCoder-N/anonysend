@@ -76,25 +76,24 @@ const Page = () => {
         })
         router.replace(`/verify/${username}`);
       }
-      else{
-        toast({
-          title:'Sign Up Failed',
-          description:'Failed to sign up user, Please try again later.',
-          variant:'destructive'
-        })
-      }
     } catch (error) {
       console.error("Error in submitting form",error);
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast({
+        title:'Sign Up Failed',
+        description:axiosError.response?.data?.message ?? "Error Registering User",
+        variant:'destructive'
+      })
     } finally{
       setIsSubmitting(false);
     }
   }
 
   return (
-    <div className='bg-gray-100 flex justify-center items-center min-h-screen w-full'>
+    <div className='bg-gradient-to-r from-[#8234d5] to-[#4e0a97] flex justify-center items-center min-h-[90vh] w-full'>
         <div className='bg-white rounded-lg w-[90%] md:w-1/3 p-6 shadow-lg'>
             <div className='flex flex-col gap-1 mb-4'>
-                <h2 className='text-3xl font-bold'>Sign Up</h2>
+                <h2 className='text-3xl font-bold text-[#4e0a97]'>Sign Up</h2>
                 <p className='text-sm text-slate-500'>Welcome to Anonysend, share anonymous messages with your friends.</p>
             </div>
             <Form {...form}>
@@ -104,7 +103,7 @@ const Page = () => {
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Username</FormLabel>
+                            <FormLabel className='text-[#4e0a97]'>Username</FormLabel>
                             <FormControl>
                                 <Input 
                                     placeholder="Enter Username" 
@@ -117,7 +116,7 @@ const Page = () => {
                             </FormControl>
                             {isCheckingUsername && <Loader2 className='h-4 w-4 animate-spin'/>}
 
-                            <p className={`text-sm ${usernameMessage==="Username is available"?'text-green-500':'text-red-500'}`}>
+                            <p className={`text-sm ${usernameMessage==="Username is available"?'text-teal-600':'text-red-500'}`}>
                                 {usernameMessage}
                             </p>
                             <FormMessage />
@@ -129,7 +128,7 @@ const Page = () => {
                     control={form.control}
                     render={({ field }) => (
                         <FormItem className='mt-3'>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel className='text-[#4e0a97]'>Email</FormLabel>
                             <FormControl>
                                 <Input 
                                     placeholder="Enter Email" 
@@ -145,7 +144,7 @@ const Page = () => {
                     control={form.control}
                     render={({ field }) => (
                         <FormItem className='mt-3'>
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel className='text-[#4e0a97]'>Password</FormLabel>
                             <FormControl>
                                 <Input 
                                     type='password'
@@ -157,7 +156,7 @@ const Page = () => {
                         </FormItem>
                     )}
                     />
-                    <Button type='submit' disabled={isSubmitting} className='mt-4'>
+                    <Button type='submit' disabled={isSubmitting} className='mt-4 bg-[#4e0a97] w-full'>
                     {
                         isSubmitting?(
                             <>
@@ -170,9 +169,9 @@ const Page = () => {
                 </form>
             </Form>
             <div className='mt-4'>
-                <p className='text-center'>
+                <p className='text-center text-[#4e0a97]'>
                     Already a member?{' '}
-                    <Link href='/sign-in' className='text-sky-500'>Sign In here.</Link>
+                    <Link href='/sign-in' className='text-teal-600 font-bold'>Sign In here.</Link>
                 </p>
             </div>
         </div>
