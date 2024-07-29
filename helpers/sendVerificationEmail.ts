@@ -10,12 +10,13 @@ export async function sendVerificationEmail(
 ) : Promise<ApiResponse>{
 
     try {
-        await resend.emails.send({
+        const response = await resend.emails.send({
             from: 'Acme <onboarding@resend.dev>',
             to: email,
             subject: 'Anonysend | Verification code',
             react: VerificationEmail({username,otp:verifyCode}),
         });
+        console.log(response);
 
         return {success:true,message:"Verification email sent Successfully"}
     } catch (error) {

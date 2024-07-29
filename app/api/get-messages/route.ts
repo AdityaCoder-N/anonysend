@@ -16,7 +16,7 @@ export async function GET(req:Request){
     }
 
     const userId = new mongoose.Types.ObjectId(user._id);
-    // console.log(userId)
+    console.log(userId)
     try {
         const returnedUser = await UserModel.aggregate([
             { $match: {_id:userId} },
@@ -24,9 +24,12 @@ export async function GET(req:Request){
             { $sort: {'messages.createdAt':-1}},
             { $group: {_id: '$_id', messages:{$push:'$messages'}}}
         ]);
-        // console.log(returnedUser);
-        if(!returnedUser || returnedUser.length===0){
+        console.log(returnedUser);
+        if(!returnedUser){
             return Response.json({success:false,message:"User Not Found"},{status:400});
+        }
+        if(returnedUser.length===0){
+            return Response.json({success:true,message:"No Messages Found"},{status:200});
         }
 
         return Response.json({
