@@ -20,6 +20,7 @@ const Page = () => {
   const [isLoading,setIsLoading] = useState(false);
   const [isSwitchLoading,setIsSwitchLoading] = useState(false);
   const [username,setUsername] = useState('');
+  const [profileUrl,setProfileUrl] = useState('');
   const {data:session} = useSession();
 
   const {toast} = useToast();
@@ -120,8 +121,7 @@ const Page = () => {
   }
 
   
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
-  const profileUrl = `${baseUrl}/u/${username}`;
+  
 
   const copyToClipboard=()=>{
     navigator.clipboard.writeText(profileUrl);
@@ -130,6 +130,16 @@ const Page = () => {
       description:"Profile Url has been copied to clipboard."
     })
   }
+
+  useEffect(()=>{
+    let profileUrl=''
+    if (typeof window !== 'undefined') {
+      const baseUrl = `${window.location.protocol}//${window.location.host}`;
+      profileUrl = `${baseUrl}/u/${username}`;
+    }
+    setProfileUrl(profileUrl);
+    
+  },[])
 
   if(!session || !session.user){
     return(
